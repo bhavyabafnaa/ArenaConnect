@@ -1,6 +1,6 @@
 DELIMITER //
 
-CREATE PROCEDURE add_booking(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_bookings`(
     IN user_id INT,
     IN location_id INT,
     IN booking_date DATE,
@@ -10,32 +10,29 @@ CREATE PROCEDURE add_booking(
     OUT result_message VARCHAR(255)
 )
 BEGIN
-    DECLARE unavailable_slots JSON;
+    DECLARE booked_slots JSON;
 
-    -- Check availability by finding overlapping slots
-    SELECT JSON_ARRAYAGG(slot)
-    INTO unavailable_slots
-    FROM (
-        SELECT JSON_EXTRACT(slots, CONCAT('$[', idx, ']')) AS slot
-        FROM Bookings,
-             JSON_TABLE(slots, "$[*]" COLUMNS(idx FOR ORDINALITY)) jt
-        WHERE location_id = location_id
-          AND date = booking_date
-          AND JSON_CONTAINS(requested_slots, JSON_EXTRACT(slots, CONCAT('$[', idx, ']'))) > 0
-    ) sub
-    WHERE slot IS NOT NULL;
+    SET booked_slots = (
+        SELECT JSON_ARRAYAGG(JSON_UNQUOTE(JSON_EXTRACT(slots, CONCAT('$[', n, ']'))))
+        FROM bookings, (SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3) AS num
+        WHERE location_id = location_id 
+        AND date = booking_date
+        AND JSON_EXTRACT(slots, CONCAT('$[', num.n, ']')) IS NOT NULL
+    );
 
-    -- If unavailable slots are found, set result_message and exit
-    IF unavailable_slots IS NOT NULL THEN
-        SET result_message = CONCAT('Unavailable slots: ', JSON_UNQUOTE(unavailable_slots));
+    IF booked_slots IS NOT NULL AND JSON_OVERLAPS(booked_slots, requested_slots) THEN
+        SET result_message = 'Error: Booking unavailable for some of the requested slots.';
     ELSE
-        -- If all requested slots are available, proceed to insert the booking
-        INSERT INTO Bookings (user_id, location_id, date, slots, location_fee, total_price)
-        VALUES (user_id, location_id, booking_date, requested_slots, location_fee, total_price);
+        IF location_fee <= 0 OR total_price <= 0 THEN
+            SET result_message = 'Error: Location fee and total price must be positive values.';
+        ELSE
+            INSERT INTO bookings (user_id, location_id, date, slots, location_fee, total_price)
+            VALUES (user_id, location_id, booking_date, requested_slots, location_fee, total_price);
 
-        -- Set success message
-        SET result_message = 'Booking created successfully';
+            SET result_message = 'Booking created successfully.';
+        END IF;
     END IF;
-END //
+END;
+
 
 DELIMITER ;

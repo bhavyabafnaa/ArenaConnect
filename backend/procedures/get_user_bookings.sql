@@ -1,25 +1,26 @@
 DELIMITER //
 
-CREATE PROCEDURE get_user_bookings(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_bookings`(
     IN user_id INT
 )
 BEGIN
-    SELECT 
-        b.booking_id, 
-        l.location_name, 
-        l.city, 
-        l.sport, 
-        DATE_FORMAT(b.date, '%Y-%m-%d') AS date, -- Format date as string
-        b.slots, 
+    SELECT
+        b.booking_id,
+        l.location_name,
+        l.city,
+        l.sport,
+        DATE_FORMAT(b.date, '%Y-%m-%d') AS date,
+        b.slots,
         b.total_price
-    FROM 
+    FROM
         Bookings b
-    JOIN 
+    JOIN
         Locations l ON b.location_id = l.location_id
-    WHERE 
+    WHERE
         b.user_id = user_id
-    ORDER BY 
+    ORDER BY
         b.date DESC;
-END //
+END;
+
 
 DELIMITER ;

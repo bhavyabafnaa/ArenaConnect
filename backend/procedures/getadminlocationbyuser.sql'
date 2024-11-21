@@ -1,0 +1,25 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_admin_locations_by_user`(
+    IN user_id INT
+)
+BEGIN
+    DECLARE admin_id INT;
+
+    SELECT a.admin_id INTO admin_id
+    FROM admins a
+    WHERE a.user_id = user_id;
+
+    IF admin_id IS NULL THEN
+        SELECT 'No admin found for the provided user_id' AS message;
+    ELSE
+        SELECT 
+            l.location_id, 
+            l.location_name, 
+            l.city, 
+            l.sport, 
+            l.price_per_3_hours, 
+            l.max_capacity
+        FROM Locations l
+        WHERE l.admin_id = admin_id
+        ORDER BY l.location_name;
+    END IF;
+END;
