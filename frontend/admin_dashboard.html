@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <div id="logo-section">
+            <div id="arena">
+                <h1>Arena</h1>
+            </div>
+            
+            <div id="connect">
+                <h1>Connect</h1>
+            </div>
+        </div>
+        <h1>Admin Dashboard</h1>
+
+        <!-- Main layout container for the three-column layout -->
+        <div id="dashboard-content">
+            <!-- Left Column: Add New Location Form -->
+            <div id="add-location-section">
+                <h2>Add New Location</h2>
+                <form id="add-location-form">
+                    <label for="location_name">Location Name:</label>
+                    <input type="text" id="location_name" required>
+
+                    <label for="city">City:</label>
+                    <input type="text" id="city" required>
+
+                    <label for="sport">Sport:</label>
+                    <input type="text" id="sport" required>
+
+                    <label for="price_per_3_hours">Price per 3 hours:</label>
+                    <input type="number" id="price_per_3_hours" required>
+
+                    <label for="max_capacity">Maximum Capacity:</label>
+                    <input type="number" id="max_capacity" required>
+
+                    <button type="submit">Add Location</button>
+                </form>
+                <p id="add-location-message"></p>
+            </div>
+
+            <!-- Center Column: All Locations Section -->
+            <div id="admin-locations">
+                <h2>All Locations</h2>
+                <div id="locations-list"></div>
+            </div>
+
+            <!-- Right Column: Total Revenue and All Bookings -->
+            <div id="right-column">
+                
+                <!-- Top of Right Column: Total Revenue -->
+                <div id="total-revenue">
+                    <h3>Total Revenue</h3>
+                    <h2><span id="total"></span></h2>
+                </div>
+
+                <!-- Bottom of Right Column: All Bookings -->
+                <div id="view-bookings-section">
+                    <h2>All Bookings</h2>
+                    <div id="bookings-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

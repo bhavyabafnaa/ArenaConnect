@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Logo Section -->
+        <div id="logo-section">
+            <div id="arena">
+                <h1>Arena</h1>
+            </div>
+            
+            <div id="connect">
+                <h1>Connect</h1>
+            </div>
+        </div>
+    
+        <!-- Search Section -->
+        <div id="search-section">
+            <input type="text" id="search-query" placeholder="Search by location name or city">
+            <button onclick="searchLocations()">Search</button>
+        </div>
+        <!-- Main Content with Sidebar Layout -->
+        <div id="main-content">
+            <!-- Left Sidebar: Filters -->
+            <div id="filter-section">
+                <h3>Filters</h3>
+    
+                <!-- Filter by City -->
+                <div id="city-filter">
+                    <h4>City</h4>
+                    <!-- Dynamic city checkboxes or tags will go here -->
+                </div>
+    
+                <!-- Filter by Sport Type -->
+            
+    
+                <!-- Filter by Price Range -->
+                <h4>Price Range (per 3 hours):</h4>
+                <select id="filter-price">
+                    <option value="">Select Price Range</option>
+                    <option value="0-300">0 - 300</option>
+                    <option value="300-600">300 - 600</option>
+                    <option value="600-1000">600 - 1000</option>
+                    <option value="1000-">1000+</option>
+                </select>
+
+                <div id="sport-filter">
+                    <h4>Sport Type</h4>
+                    <!-- Dynamic sport checkboxes or tags will go here -->
+                </div>
+    
+                <button onclick="applyFilters()">Apply Filters</button>
+            </div>
+    
+            <!-- Center Column: Locations Search Results -->
+            <div id="locations">
+                
+                <!-- Repeat similar cards dynamically -->
+            </div>
+    
+            <!-- Right Sidebar: View Past Bookings with Button -->
+            <div id="user-bookings">
+                <h3>Past Bookings</h3>
+                <button onclick="loadUserBookings()">View Past Bookings</button>
+                <!-- Past bookings will be dynamically displayed here when the button is clicked -->
+                
+                <!-- Repeat similar past booking entries dynamically -->
+            </div>
+        </div>
+    </div>
+    
+
+
+<script src="js/user.js"></script>
+
+</body>
+</html>

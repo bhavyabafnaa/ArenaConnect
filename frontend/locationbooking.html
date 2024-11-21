@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Booking</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Location Booking</h1>
+
+        <!-- Location Details Section -->
+        <div id="location-info">
+            <h2 id="location-name">Location Name</h2>
+            <p><strong>City:</strong> <span id="location-city"></span></p>
+            <p><strong>Sport:</strong> <span id="location-sport"></span></p>
+            <p><strong>Price per Slot:</strong> Rs<span id="location-price"></span></p>
+            <p><strong>Maximum Capacity:</strong> <span id="location-cap"></span> members</p>
+        </div>
+
+        <!-- Date Selection Section -->
+        <div id="booking-section">
+            <h3>Select Date</h3>
+            <input type="date" id="booking-date">
+            <button onclick="checkAvailability()">Check Availability</button>
+        </div>
+        <script>
+            // Set today's date as the minimum selectable date in the date input
+            const dateInput = document.getElementById('booking-date');
+            const today = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            dateInput.setAttribute('min', today);
+        </script>
+        <!-- Available Slots Section -->
+        <div id="slots-section">
+            <h3>Available Slots</h3>
+            <div id="slots-container"></div> <!-- Slot boxes will be generated here -->
+        </div>
+
+        <!-- Booking Summary Section -->
+        <div id="booking-summary">
+            <h3>Booking Summary</h3>
+            <p>Location Price: Rs <span id="location-slotsprice">0</span></p>
+            <p>Platform Fee: Rs 14.56</p>
+            <p><strong>Total Price: Rs</strong> <span id="total-price">0</span></p>
+            <button onclick="confirmBooking()">Confirm Booking</button>
+        </div>
+    </div>
+
+    <script src="js/location.js"></script>
+    
+</body>
+</html>
